@@ -1,0 +1,22 @@
+import pandas as pd
+import numpy as np
+
+df1 = pd.read.csv('dataset1.csv')
+region_cols = ['North', 'South', 'East', 'West']
+df1[region_cols] = df1[region_cols].apply(pd.to_numeric, errors='coerce')
+df1.fillna(0, inplace=True)
+df1['Quarter'] = pd.Categorical(df1[Quarter], categories =['Q1', 'Q2', 'Q3', 'Q4'], ordered=True)
+
+df2 = pd.read.csv('dataset2.csv')
+df2['time'] = pd.to_datetime(df2['time'], errors='coerce')
+df2.dropna(subset=['Time'], inplace=True)
+numeric_cols = ['hours_after_sunset', 'bat_landing_number', 'rat_minutes', 'rat_arrival_number', 'food_availability']
+df2[numeric_cols] = df2[numeric_cols].apply(pd.to_numeric, errors='coerce')
+df2[numeric_cols] = df2[numeric_cols].fillna(0)
+df2['date'] = df2['time'].dt.date
+df2['hour'] = df2['time'].dt.hour
+month_to_quarter = {1: 'Q1', 2: 'Q1', 3: 'Q1', 4: 'Q2', 5: 'Q2', 6: 'Q2', 7: 'Q3', 8: 'Q3', 9: 'Q3', 10: 'Q4', 11: 'Q4', 12: 'Q4'}
+df2['Quarter'] = df2['time'].dt.month.map(month_to_quarter)
+
+bat_summary = df2.groupby('Quarter')[['bat_landing_number', 'rat_minutes', 'rat_arrival_number']].mean().reset_index()
+merged_df = pd.merge(df1, bat_summary, on='Quarter', how='left')
