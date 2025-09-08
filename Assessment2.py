@@ -71,5 +71,40 @@ plt.show()
 stats = df1_cleaned.groupby("month")["seconds_after_rat_arrival"].agg(["mean", "median", "std", "count"])
 print(stats)
 
+# DO the same for the bat landing to food time
+fig, axes = plt.subplots(2, 3, figsize=(15, 8), sharex=True, sharey=True)
+
+for i, month in enumerate(sorted(df1_cleaned['month'].unique())):
+    ax = axes[i//3, i%3]
+    subset = df1_cleaned[df1_cleaned['month'] == month]
+    ax.hist(subset['bat_landing_to_food'], bins=20, color="lightgreen", edgecolor="black")
+    ax.set_title(f"Month {month}")
+    ax.set_xlabel("Bat Landing to Food Time (seconds)")
+    ax.set_ylabel("Count")
+
+plt.suptitle("Histogram of Bat Landing to Food Time by Month")
+plt.tight_layout()
+plt.show()
+
+stats = df1_cleaned.groupby("month")["bat_landing_to_food"].agg(["mean", "median", "std", "count"])
+print(stats)
+
+# Due to month 4 having a much larger sample size than other months it is necessary to do the 
+# other months individually due to scaling difficulties for showing all months on the same plot.
+
+month_to_plot = 3  # Change this to plot different months  
+
+# Filter dataset for that month
+subset = df1_cleaned[df1_cleaned['month'] == month_to_plot]
+
+# Plot histogram
+plt.figure(figsize=(8, 5))
+plt.hist(subset['bat_landing_to_food'], bins=20, color="skyblue", edgecolor="black")
+plt.title(f"Histogram of Bat Landing to Food Time (Month {month_to_plot})")
+plt.xlabel("Bat Landing to Food Time (seconds)")
+plt.ylabel("Count")
+plt.show()
+
 # If the bat sees the rat as a competitor to food it might try to fight the rat for it or get it as fast as possible. Therefore, leading to a shorter bat landing to food time.
 # If the bat sees the rat as a preditor it might try to avoid the rat and see if it goes away before approaching the food. Therefore, leading to longer bat landing to food time.
+
