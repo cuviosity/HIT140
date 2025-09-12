@@ -108,6 +108,16 @@ plt.show()
 # If the bat sees the rat as a competitor to food it might try to fight the rat for it or get it as fast as possible. Therefore, leading to a shorter bat landing to food time.
 # If the bat sees the rat as a preditor it might try to avoid the rat and see if it goes away before approaching the food. Therefore, leading to longer bat landing to food time.
 
+n = len(df_dataset1["bat_landing_to_food"])
+mean = np.mean(df_dataset1["bat_landing_to_food"]) # mean for whole dataset, not just one month
+sem = st.sem(df_dataset1["bat_landing_to_food"])  # standard error of the mean for whole dataset, not just one month
+
+# 95% confidence interval
+ci = st.t.interval(confidence=0.95, df=n-1, loc=mean, scale=sem)
+
+print(f"Mean bat_landing_to_food: {mean:.2f} seconds")
+print(f"95% Confidence Interval: {ci[0]:.2f} to {ci[1]:.2f} seconds")
+
 # Next I will look at the hours after sunset variable and loot at the measure of central tendency and spread.
 stats = df_dataset1["bat_landing_to_food"].agg(["mean", "median", "std", "count"])
 print(stats)
