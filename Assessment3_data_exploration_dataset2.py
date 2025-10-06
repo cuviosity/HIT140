@@ -54,6 +54,35 @@ df['month_year'] = df['time'].dt.strftime('%b %Y')  # e.g., Dec 2017
 # plt.show()
 
 # Create a collection of boxplots
-ax = sns.boxplot(data=df, orient='h', palette='Set2', whis=1.5)
-plt.title('Boxplots of Numeric Variables in Dataset 2')
-plt.show()
+# ax = sns.boxplot(data=df, orient='h', palette='Set2', whis=1.5)
+# plt.title('Boxplots of Numeric Variables in Dataset 2')
+# plt.show()
+
+# # Create a specific boxplot for bat landing number
+# ax = sns.boxplot(x='bat_landing_number', data=df, palette='Set3', whis=1.5)
+# plt.title('Boxplot of Bat Landing Number')
+# plt.xlabel('Bat Landing Number')
+# plt.show()
+# This shows that there are outliers in bat landing number on the upper end. 
+
+# # Create a specific boxplot for rat minutes
+# ax = sns.boxplot(x='rat_minutes', data=df, palette='Set3', whis=1.5)   
+# plt.title('Boxplot of Rat Minutes')
+# plt.xlabel('Rat Minutes')
+# plt.show()
+# # Data is very right skewed, with a lot of outliers on the upper end. May be worth visualising the data another way.
+# 
+# # Create a specific boxplot for rat arrival number
+# ax = sns.boxplot(x='rat_arrival_number', data=df, palette='Set3', whis=1.5)
+# plt.title('Boxplot of Rat Arrival Number')
+# plt.xlabel('Rat Arrival Number')
+# plt.show()
+# #Due to the large number of zero values(no rat arriving in observation period), the data is right skewed and does not represent a normal box plot.
+
+# Create a histogram with bat landing number on the y axis and food availability on the x axis
+# plt.figure(figsize=(10, 6))
+# sns.histplot(data=df, x='food_availability', bins=20, kde=True, color='skyblue', edgecolor='black')
+# plt.title('Histogram of Food Availability')
+# plt.xlabel('Food Availability') 
+# plt.ylabel('Number of Bat Landings', rotation=0, labelpad=40)
+# plt.show()
