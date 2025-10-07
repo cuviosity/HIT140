@@ -49,18 +49,18 @@ print(f'Mean number of bat landings with rats: {mean_with_rats}')
 # The first test we will do will split the data into two groups. One group where rat_minutes is less than or equal to the median rat_minutes, 
 # and one group where rat_minutes is greater than the median rat_minutes.
 # We will then perform a two-sample t-test to determine if there is a significant difference in bat landings between the two groups.
-print("Median rat minutes:", df_with_rats['rat_minutes'].median())
+# print("Median rat minutes:", df_with_rats['rat_minutes'].median())
 df_less_than_median = df_with_rats[df_with_rats['rat_minutes'] <= df_with_rats['rat_minutes'].median()]
 df_greater_than_median = df_with_rats[df_with_rats['rat_minutes'] > df_with_rats['rat_minutes'].median()]
-
-t_stats, p_value, dfree = sm.stats.ttest_ind(df_less_than_median['bat_landing_number'], df_greater_than_median['bat_landing_number'])
-alpha = 0.05
-print(f'T-stat: {t_stats}, P-val: {p_value}')
-if p_value < alpha:
-    print('Reject the null hypothesis: There is a significant difference in bat landings between low and high rat minutes.')
-else:
-    print('Fail to reject the null hypothesis: There is no significant difference in bat landings between low and high rat minutes.')
-
+# 
+# t_stats, p_value, dfree = sm.stats.ttest_ind(df_less_than_median['bat_landing_number'], df_greater_than_median['bat_landing_number'])
+# alpha = 0.05
+# print(f'T-stat: {t_stats}, P-val: {p_value}')
+# if p_value < alpha:
+#     print('Reject the null hypothesis: There is a significant difference in bat landings between low and high rat minutes.')
+# else:
+#     print('Fail to reject the null hypothesis: There is no significant difference in bat landings between low and high rat minutes.')
+# 
 # # We will use a correlation test to determine if there is a significant correlation between the number of rat minutes and the number of bat landings.
 # correlation, p_value = st.pearsonr(df_with_rats['rat_minutes'], df_with_rats['bat_landing_number'])
 # alpha = 0.05
@@ -69,3 +69,56 @@ else:
 #     print('Reject the null hypothesis: There is a significant correlation between rat minutes and bat landings.')
 # else:
 #     print('Fail to reject the null hypothesis: There is no significant correlation between rat minutes and bat landings.')  
+# 
+# # Now we will run hypothesis test 3. Null hypothesis – as the seasons change bat arrivals decrease at the same rate when 
+# # rat arrival numbers increase. Tested to a 95% confidence level. 
+# # First we will split the dataframe into two new dataframes. One for summer months (December, January, February) and one for non-summer months (March, April, May, June, July, August, September, October, November).
+df_season1 = df[df['month'].isin([0, 1, 2])]
+df_season2 = df[df['month'].isin([3, 4, 5, 6])]
+# 
+# # Now we will test to see if there is a significant difference in bat landings between the two seasons when rat arrival number = 0.
+# df_season1_no_rats = df_season1[df_season1['rat_arrival_number'] == 0]
+# df_season2_no_rats = df_season2[df_season2['rat_arrival_number'] == 0]
+# t_stats, p_value, dfree = sm.stats.ttest_ind(df_season1_no_rats['bat_landing_number'], df_season2_no_rats['bat_landing_number'])
+# alpha = 0.05
+# print(f'T-stat (no rats): {t_stats}, P-val: {p_value}')
+# if p_value < alpha:
+#     print('Reject the null hypothesis: There is a significant difference in bat landings between seasons when no rats are present.')
+# else:
+#     print('Fail to reject the null hypothesis: There is no significant difference in bat landings between seasons when no rats are present.')
+# 
+# # Now we will test to see if there is a significant difference in bat landings between the two seasons when rat arrival number > 0.
+# df_season1_with_rats = df_season1[df_season1['rat_arrival_number'] > 0]
+# df_season2_with_rats = df_season2[df_season2['rat_arrival_number'] > 0]
+# t_stats, p_value, dfree = sm.stats.ttest_ind(df_season1_with_rats['bat_landing_number'], df_season2_with_rats['bat_landing_number'])
+# alpha = 0.05
+# print(f'T-stat (with rats): {t_stats}, P-val: {p_value}')
+# if p_value < alpha:
+#     print('Reject the null hypothesis: There is a significant difference in bat landings between seasons when rats are present.')
+# else:
+#     print('Fail to reject the null hypothesis: There is no significant difference in bat landings between seasons when rats are present.')  
+# 
+# Finally we will run hypothesis test 4. Null hypothesis – There will be no significant change in the rate that bat landing numbers decrease 
+# as rat minutes increase between the seasons. This will be tested to a 95% confidence level. Here we will use the previous dataframes seperated 
+# based on the median rat minutes and then divide each of those further into two datasets based on their seasons.
+df_season1_less_than_median = df_less_than_median[df_less_than_median['month'].isin([0, 1, 2])]
+df_season1_greater_than_median = df_greater_than_median[df_greater_than_median['month'].isin([0, 1, 2])]
+df_season2_less_than_median = df_less_than_median[df_less_than_median['month'].isin([3, 4, 5, 6])]
+df_season2_greater_than_median = df_greater_than_median[df_greater_than_median['month'].isin([3, 4, 5, 6])]
+# Now we will perform t-tests to determine if there is a significant difference in bat landings between seasons for low rate minutes.
+t_stats, p_value, dfree = sm.stats.ttest_ind(df_season1_less_than_median['bat_landing_number'], df_season2_less_than_median['bat_landing_number'])
+alpha = 0.05
+print(f'T-stat (low rat minutes): {t_stats}, P-val: {p_value}')
+if p_value < alpha:
+    print('Reject the null hypothesis: There is a significant difference in bat landings between seasons for low rat minutes.')
+else:
+    print('Fail to reject the null hypothesis: There is no significant difference in bat landings between seasons for low rat minutes.')
+
+# Now we will perform t-tests to determine if there is a significant difference in bat landings between seasons for high rate minutes.
+t_stats, p_value, dfree = sm.stats.ttest_ind(df_season1_greater_than_median['bat_landing_number'], df_season2_greater_than_median['bat_landing_number'])
+alpha = 0.05
+print(f'T-stat (high rat minutes): {t_stats}, P-val: {p_value}')
+if p_value < alpha:
+    print('Reject the null hypothesis: There is a significant difference in bat landings between seasons for high rat minutes.')
+else:
+    print('Fail to reject the null hypothesis: There is no significant difference in bat landings between seasons for high rat minutes.')

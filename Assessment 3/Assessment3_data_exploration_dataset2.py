@@ -14,9 +14,9 @@ df['month_year'] = df['time'].dt.strftime('%b %Y')  # e.g., Dec 2017
 
 
 # # Pairplot
-# sns.pairplot(df)
-# plt.suptitle('Time to Approach Food vs Seconds After Rat Arrival by Month', y=1.02)
-# plt.tight_layout()
+# pairplot = sns.pairplot(df, height=2.5)
+# pairplot.fig.suptitle('EDA Pairplot for Dataset 2', y=1.15)
+# plt.subplots_adjust(top=0.92, bottom=0.15)  # Add space for title and labels
 # plt.show()  
 # 
 # # Scatterplot
@@ -113,7 +113,98 @@ df_greater_than_median = df_with_rats[df_with_rats['rat_minutes'] > df_with_rats
 # plt.xlabel('Rat Arrival Number (0 = No Rats, >0 = Rats Arriving)')
 # plt.ylabel('Bat Landing Number')
 # plt.show()
-
+# 
+# # Now we will create two sets of comparitive boxplots for hypothesis test 3. The first for rat arrival number = 0, and the second for rat arrival 
+# # number > 0.
+# # First we will split our data into the two seasons.
+df_season1 = df[df['month'].isin([0, 1, 2])]
+df_season2 = df[df['month'].isin([3, 4, 5, 6])]
+# # Now create subset dataframes for rat arrival number = 0.
+# df_season1_no_rats = df_season1[df_season1['rat_arrival_number'] == 0]
+# df_season2_no_rats = df_season2[df_season2['rat_arrival_number'] == 0]
+# 
+# # Create season labels
+# df_season1_no_rats['season'] = 'Season 1 (Dec, Jan, Feb)'
+# df_season2_no_rats['season'] = 'Season 2 (Mar, Apr, May, Jun)'
+# 
+# # Combine both DataFrames
+# df_seasons_no_rats = pd.concat([df_season1_no_rats, df_season2_no_rats])
+# 
+# # Plot boxplot with season as x-axis
+# sns.boxplot(
+#     x='season',
+#     y='bat_landing_number',
+#     data=df_seasons_no_rats,
+#     palette='Set3',
+#     whis=1.5
+# )
+# plt.title('Boxplot of Bat Landing Number by Season (When rat arrivals is zero)')
+# plt.xlabel('Season')
+# plt.ylabel('Bat Landing Number')
+# plt.show()
+# 
+# # Now we will do the same for rat arrival number > 0.
+# df_season1_with_rats = df_season1[df_season1['rat_arrival_number'] > 0]
+# df_season2_with_rats = df_season2[df['rat_arrival_number'] > 0]
+# 
+# # Create season labels again
+# df_season1_with_rats['season'] = 'Season 1 (Dec, Jan, Feb)'
+# df_season2_with_rats['season'] = 'Season 2 (Mar, Apr, May, Jun)'
+# 
+# # Again combine both DataFrames
+# df_seasons_with_rats = pd.concat([df_season1_with_rats, df_season2_with_rats])
+# 
+# # Finally plot the boxplot with season as x-axis
+# sns.boxplot(
+#     x='season',
+#     y='bat_landing_number',
+#     data=df_seasons_with_rats,
+#     palette='Set3',
+#     whis=1.5
+# )
+# plt.title('Boxplot of Bat Landing Number by Season (When rat arrivals is greater than zero)')
+# plt.xlabel('Season')
+# plt.ylabel('Bat Landing Number')
+# plt.show()
+# 
+# Finally we will do the same for test 4. 
+df_season1_less_than_median = df_less_than_median[df_less_than_median['month'].isin([0, 1, 2])]
+df_season1_greater_than_median = df_greater_than_median[df_greater_than_median['month'].isin([0, 1, 2])]
+df_season2_less_than_median = df_less_than_median[df_less_than_median['month'].isin([3, 4, 5, 6])]
+df_season2_greater_than_median = df_greater_than_median[df_greater_than_median['month'].isin([3, 4, 5, 6])]
+# 
+# # Create boxplot for when rat minutes is less than or equal to the median for both seasons.
+# sns.boxplot(
+#     x='season',
+#     y='bat_landing_number',
+#     data=pd.concat([
+#         df_season1_less_than_median.assign(season='Season 1 (Dec, Jan, Feb)'),
+#         df_season2_less_than_median.assign(season='Season 2 (Mar, Apr, May, Jun)')
+#     ]),
+#     palette='Set3',
+#     whis=1.5
+# )
+# plt.title('Boxplot of Bat Landing Number by Season (When Rat Minutes is less than the Median)')
+# plt.xlabel('Season')
+# plt.ylabel('Bat Landing Number')
+# plt.show() 
+# 
+## Create boxplot for when rat minutes is greater than the median for both seasons.
+#sns.boxplot(
+#    x='season',
+#    y='bat_landing_number',
+#    data=pd.concat([
+#        df_season1_greater_than_median.assign(season='Season 1 (Dec, Jan, Feb)'),
+#        df_season2_greater_than_median.assign(season='Season 2 (Mar, Apr, May, Jun)')
+#    ]),
+#    palette='Set3',
+#    whis=1.5
+#)
+#plt.title('Boxplot of Bat Landing Number by Season (When Rat Minutes is greater than the Median)')
+#plt.xlabel('Season')
+#plt.ylabel('Bat Landing Number')
+#plt.show()
+#
 # # Create a specific boxplot for rat minutes
 # ax = sns.boxplot(x='rat_minutes', data=df, palette='Set3', whis=1.5)   
 # plt.title('Boxplot of Rat Minutes')
