@@ -106,25 +106,11 @@ sns.set_theme()
 
 #scatterplot blaj
 
- 
-
 sns.scatterplot(data=df_with_rats, x=x_test, y=y_test) 
-
- 
-
 plt.xlabel('Rat Arrival Number') 
-
 plt.ylabel('Bat Landing Number') 
-
- 
-
 plt.plot(x_test, y_pred, color='red', linewidth=2, label='Predicted') 
-
- 
-
 plt.show() 
-
- 
 
 #----------------------------------------------- 
 
@@ -132,32 +118,18 @@ plt.show()
 
 #----------------------------------------------- 
 
- 
-
 #df_with_rats['month'] =pd.to_datetime(df_with_rats['month']) 
-
- 
 
 #sns.set_theme() 
 
- 
-
 #scatterplot 
 
- 
-
 #sns.scatterplot(data=df_with_rats, x=x_test, y=y_test) 
-
- 
 
 #plt.xlabel('Rat Arrival Number') 
 
 #plt.ylabel('Bat Landing Number') 
 
- 
-
 #plt.plot(x_test, y_pred, color='red', linewidth=2, label='Predicted') 
-
- 
 
 #plt.show() 

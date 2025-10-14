@@ -6,7 +6,7 @@ import seaborn as sns
 import statsmodels.api as sm
 
 # Read dataframe
-df = pd.read_csv('/Users/christoffeljansevanvuuren/Home Documents/University/HIT140/Assessment 2/GitHub/HIT140/Assessment 3/dataset2.csv')
+df = pd.read_csv('Assessment 3/dataset2.csv')
 
 # Convert time column to a simpler format for presenting
 df['time'] = pd.to_datetime(df['time'], format='%d/%m/%Y %H:%M')
