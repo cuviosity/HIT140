@@ -6,6 +6,7 @@ import seaborn as sns
 import statsmodels.api as sm
 import statsmodels.stats.proportion as stm
 import scipy.stats as st
+import math
 
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
@@ -38,7 +39,7 @@ print("Coefficient of X (b_1): ", model.coef_)
 y_pred = model.predict(x_test) 
 df_pred = pd.DataFrame({"Actual": y_test, "Predicted": y_pred}) 
 
-#print(df_pred) 
+print(df_pred) 
 #MAE 
 
 mae = metrics.mean_absolute_error(y_test, y_pred) 
@@ -57,13 +58,13 @@ y_max = y_test.max()
 y_min = y_test.min() 
 nrmse = rmse / (y_max - y_min) 
 
-#print("MAE: ", mae) 
+print("MAE: ", mae) 
 
-#print("MSE: ", mse) 
+print("MSE: ", mse) 
 
-#print("RMSE: ", rmse) 
+print("RMSE: ", rmse) 
 
-#print("NRMSE: ", nrmse) 
+print("NRMSE: ", nrmse) 
 
 #GET BASELINE 
 
@@ -88,13 +89,13 @@ y_max = y_test.max()
 y_min = y_test.min() 
 nrmse = rmse / (y_max - y_min) 
 
-#print("MAE (baseline): ", mae) 
+print("MAE (baseline): ", mae) 
 
-#print("MSE (baseline): ", mse) 
+print("MSE (baseline): ", mse) 
 
-#print("RMSE (baseline): ", rmse) 
+print("RMSE (baseline): ", rmse) 
 
-#print("NRMSE (baseline): ", nrmse) 
+print("NRMSE (baseline): ", nrmse) 
 
 #------------------------------------------------- 
 
@@ -104,12 +105,12 @@ nrmse = rmse / (y_max - y_min)
 
 sns.set_theme() 
 
-#scatterplot blaj
+#scatterplot
 
-sns.scatterplot(data=df_with_rats, x=x_test, y=y_test) 
+sns.scatterplot(x=x_test['rat_arrival_number'], y=y_test) 
 plt.xlabel('Rat Arrival Number') 
 plt.ylabel('Bat Landing Number') 
-plt.plot(x_test, y_pred, color='red', linewidth=2, label='Predicted') 
+plt.plot(x_test['rat_arrival_number'], y_pred, color='red', linewidth=2, label='Predicted')
 plt.show() 
 
 #----------------------------------------------- 
@@ -118,18 +119,14 @@ plt.show()
 
 #----------------------------------------------- 
 
-#df_with_rats['month'] =pd.to_datetime(df_with_rats['month']) 
+df_with_rats['month'] =pd.to_datetime(df_with_rats['month']) 
 
-#sns.set_theme() 
+sns.set_theme() 
 
 #scatterplot 
 
-#sns.scatterplot(data=df_with_rats, x=x_test, y=y_test) 
-
-#plt.xlabel('Rat Arrival Number') 
-
-#plt.ylabel('Bat Landing Number') 
-
-#plt.plot(x_test, y_pred, color='red', linewidth=2, label='Predicted') 
-
-#plt.show() 
+sns.scatterplot(x=x_test['rat_arrival_number'], y=y_test) 
+plt.xlabel('Rat Arrival Number') 
+plt.ylabel('Bat Landing Number') 
+plt.plot(x_test['rat_arrival_number'], y_pred, color='red', linewidth=2, label='Predicted') 
+plt.show() 
